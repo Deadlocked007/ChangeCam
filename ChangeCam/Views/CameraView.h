@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  CameraView.h
 //  ChangeCam
 //
 //  Created by Siraj Zaneer on 4/29/18.
@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
-@interface ViewController : UIViewController
+@interface CameraView : UIView
 
+@property AVCaptureVideoPreviewLayer *videoPreviewLayer;
 
 @end
-

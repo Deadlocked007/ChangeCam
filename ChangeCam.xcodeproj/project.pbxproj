@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		C701B86020959A72001BD7CD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C701B85F20959A72001BD7CD /* AppDelegate.m */; };
-		C701B86320959A73001BD7CD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C701B86220959A73001BD7CD /* ViewController.m */; };
 		C701B86620959A73001BD7CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C701B86420959A73001BD7CD /* Main.storyboard */; };
 		C701B86820959A74001BD7CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C701B86720959A74001BD7CD /* Assets.xcassets */; };
 		C701B86B20959A74001BD7CD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C701B86920959A74001BD7CD /* LaunchScreen.storyboard */; };
 		C701B86E20959A74001BD7CD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C701B86D20959A74001BD7CD /* main.m */; };
 		C701B87820959A74001BD7CD /* ChangeCamTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C701B87720959A74001BD7CD /* ChangeCamTests.m */; };
 		C701B88320959A74001BD7CD /* ChangeCamUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C701B88220959A74001BD7CD /* ChangeCamUITests.m */; };
+		C701B89220959FCF001BD7CD /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C701B89120959FCF001BD7CD /* CameraViewController.m */; };
+		C72E95542095B76100E27B5E /* CameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = C72E95532095B76100E27B5E /* CameraView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,8 +39,6 @@
 		C701B85B20959A72001BD7CD /* ChangeCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChangeCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C701B85E20959A72001BD7CD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C701B85F20959A72001BD7CD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C701B86120959A73001BD7CD /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		C701B86220959A73001BD7CD /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		C701B86520959A73001BD7CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C701B86720959A74001BD7CD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C701B86A20959A74001BD7CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +50,10 @@
 		C701B87E20959A74001BD7CD /* ChangeCamUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChangeCamUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C701B88220959A74001BD7CD /* ChangeCamUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangeCamUITests.m; sourceTree = "<group>"; };
 		C701B88420959A74001BD7CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C701B89020959FCF001BD7CD /* CameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
+		C701B89120959FCF001BD7CD /* CameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
+		C72E95522095B76100E27B5E /* CameraView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraView.h; sourceTree = "<group>"; };
+		C72E95532095B76100E27B5E /* CameraView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,10 +104,10 @@
 		C701B85D20959A72001BD7CD /* ChangeCam */ = {
 			isa = PBXGroup;
 			children = (
+				C72E95512095B71100E27B5E /* Controllers */,
+				C72E95502095B70700E27B5E /* Views */,
 				C701B85E20959A72001BD7CD /* AppDelegate.h */,
 				C701B85F20959A72001BD7CD /* AppDelegate.m */,
-				C701B86120959A73001BD7CD /* ViewController.h */,
-				C701B86220959A73001BD7CD /* ViewController.m */,
 				C701B86420959A73001BD7CD /* Main.storyboard */,
 				C701B86720959A74001BD7CD /* Assets.xcassets */,
 				C701B86920959A74001BD7CD /* LaunchScreen.storyboard */,
@@ -130,6 +133,24 @@
 				C701B88420959A74001BD7CD /* Info.plist */,
 			);
 			path = ChangeCamUITests;
+			sourceTree = "<group>";
+		};
+		C72E95502095B70700E27B5E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C72E95522095B76100E27B5E /* CameraView.h */,
+				C72E95532095B76100E27B5E /* CameraView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C72E95512095B71100E27B5E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C701B89120959FCF001BD7CD /* CameraViewController.m */,
+				C701B89020959FCF001BD7CD /* CameraViewController.h */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,9 +283,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C701B86320959A73001BD7CD /* ViewController.m in Sources */,
+				C701B89220959FCF001BD7CD /* CameraViewController.m in Sources */,
 				C701B86E20959A74001BD7CD /* main.m in Sources */,
 				C701B86020959A72001BD7CD /* AppDelegate.m in Sources */,
+				C72E95542095B76100E27B5E /* CameraView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
