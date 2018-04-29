@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import <CoreMedia/CoreMedia.h>
 #import "CameraView.h"
 
-@interface CameraViewController : UIViewController
+@interface CameraViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @property AVCaptureSession *captureSession;
+@property AVCaptureVideoDataOutput *videoOutput;
+@property dispatch_queue_t videoOutputQueue;
 
 @property (weak, nonatomic) IBOutlet CameraView *cameraView;
 
@@ -21,3 +24,4 @@
 - (void)showCameraPreview;
 
 @end
+

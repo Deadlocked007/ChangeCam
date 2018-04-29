@@ -57,7 +57,7 @@
     
     _captureSession = [[AVCaptureSession alloc] init];
     [_captureSession beginConfiguration];
-    videoDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
+    videoDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInDualCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
     videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
     if (error) {
         NSLog(@"%@", [error localizedDescription]);
@@ -67,6 +67,10 @@
         if ([_captureSession canAddOutput:photoOutput]) {
             _captureSession.sessionPreset = AVCaptureSessionPresetPhoto;
             [_captureSession addOutput:photoOutput];
+            _videoOutput = [[AVCaptureVideoDataOutput alloc] init];
+            _videoOutputQueue = dispatch_queue_create("videoOutputQueue", NULL);
+            [_videoOutput setSampleBufferDelegate:self queue:_videoOutputQueue];
+            [_captureSession addOutput:_videoOutput];
             [_captureSession commitConfiguration];
             [self showCameraPreview];
         }
@@ -74,8 +78,21 @@
 }
 
 - (void)showCameraPreview {
+    _cameraView.videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     _cameraView.videoPreviewLayer.session = _captureSession;
     [_captureSession startRunning];
+}
+
+- (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
+    CVImageBufferRef imageBuffer;
+    CIImage *imageObject;
+    UIImage *image;
+    
+    imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    if (imageBuffer) {
+        imageObject = [CIImage imageWithCVImageBuffer:imageBuffer];
+        image = [UIImage imageWithCIImage:imageObject];
+    }
 }
 
 @end
