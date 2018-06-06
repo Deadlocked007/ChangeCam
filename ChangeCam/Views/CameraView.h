@@ -11,6 +11,6 @@
 
 @interface CameraView : UIView
 
-@property AVCaptureVideoPreviewLayer *videoPreviewLayer;
+@property(nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 
 @end

@@ -18,6 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [self setupML];
     [self setupCamera];
 }
 
@@ -53,45 +54,107 @@
     AVCaptureDevice *videoDevice;
     NSError *error;
     AVCaptureDeviceInput *videoDeviceInput;
-    AVCapturePhotoOutput *photoOutput;
     
     _captureSession = [[AVCaptureSession alloc] init];
     [_captureSession beginConfiguration];
-    videoDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInDualCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
+    _captureSession.sessionPreset = AVCaptureSessionPreset352x288;
+    
+    videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    
+    if ([videoDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]) {
+        [videoDevice lockForConfiguration:&error];
+        if (error) {
+            NSLog(@"%@", [error localizedDescription]);
+            error = nil;
+        } else {
+            videoDevice.focusMode = AVCaptureFocusModeContinuousAutoFocus;
+            [videoDevice unlockForConfiguration];
+        }
+    }
+
+    
     videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
     if (error) {
         NSLog(@"%@", [error localizedDescription]);
     } else if ([_captureSession canAddInput:videoDeviceInput]) {
         [_captureSession addInput:videoDeviceInput];
-        photoOutput = [[AVCapturePhotoOutput alloc] init];
-        if ([_captureSession canAddOutput:photoOutput]) {
-            _captureSession.sessionPreset = AVCaptureSessionPresetPhoto;
-            [_captureSession addOutput:photoOutput];
-            _videoOutput = [[AVCaptureVideoDataOutput alloc] init];
-            _videoOutputQueue = dispatch_queue_create("videoOutputQueue", NULL);
+        
+        // Add output for capturing live frames
+        _videoOutput = [[AVCaptureVideoDataOutput alloc] init];
+        if ([_captureSession canAddOutput:_videoOutput]) {
+            _videoOutput.alwaysDiscardsLateVideoFrames = YES;
+            _videoOutputQueue = dispatch_queue_create("videoOutputQueue", DISPATCH_QUEUE_SERIAL);
             [_videoOutput setSampleBufferDelegate:self queue:_videoOutputQueue];
             [_captureSession addOutput:_videoOutput];
-            [_captureSession commitConfiguration];
-            [self showCameraPreview];
+            [_videoOutput connectionWithMediaType:AVMediaTypeVideo].videoOrientation = AVCaptureVideoOrientationPortrait;
         }
+        
+        [_captureSession commitConfiguration];
+        [self showCameraPreview];
     }
 }
 
 - (void)showCameraPreview {
-    _cameraView.videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    _cameraView.videoPreviewLayer.session = _captureSession;
+    _cameraView.videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+    //_cameraView.videoPreviewLayer.session = _captureSession;
     [_captureSession startRunning];
 }
 
 - (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
-    CVImageBufferRef imageBuffer;
-    CIImage *imageObject;
-    UIImage *image;
-    
-    imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    if (imageBuffer) {
-        imageObject = [CIImage imageWithCVImageBuffer:imageBuffer];
-        image = [UIImage imageWithCIImage:imageObject];
+    __block CVPixelBufferRef imageBuffer;
+    __block VNImageRequestHandler *handler;
+    __block NSError *error;
+
+    dispatch_sync(self->_changedVideoOutputQueue, ^{
+        imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+        if (imageBuffer) {
+            handler = [[VNImageRequestHandler alloc] initWithCVPixelBuffer:imageBuffer options:[[NSDictionary alloc] init]];
+            [handler performRequests:[NSArray arrayWithObjects:self->_request, nil] error:&error];
+        }
+    });
+}
+
+- (IBAction)onCapture:(UIButton *)sender {
+//    AVCapturePhotoSettings *settings;
+    if (_captureSession.isRunning) {
+        [_captureSession stopRunning];
+    } else {
+        [_captureSession startRunning];
+    }
+//    settings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey : AVVideoCodecTypeJPEG}];
+//    [_photoOutput capturePhotoWithSettings:settings delegate:self];
+}
+
+- (void)setupML {
+    NSError *error;
+    __block NSArray *results;
+    __block VNPixelBufferObservation *observation;
+    __block CIImage *imageObject;
+    __block UIImage *image;
+
+    _changedVideoOutputQueue = dispatch_queue_create("changedVideoOutputQueue", DISPATCH_QUEUE_SERIAL);
+    _mosaicModel = [[FNS_The_Scream alloc] init];
+    _mosaicVisionModel = [VNCoreMLModel modelForMLModel:_mosaicModel.model error:&error];
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    } else {
+        _request = [[VNCoreMLRequest alloc] initWithModel:_mosaicVisionModel completionHandler:^(VNRequest * _Nonnull request, NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"%@", [error localizedDescription]);
+            } else {
+                if (request.results) {
+                    results = request.results;
+                    
+                    observation = results[0];
+                    imageObject = [CIImage imageWithCVImageBuffer:observation.pixelBuffer];
+                    image = [UIImage imageWithCIImage:imageObject];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        self->_cameraImageView.image = image;
+                    });
+                }
+            }
+        }];
+        
     }
 }
 

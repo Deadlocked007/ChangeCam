@@ -16,6 +16,11 @@
 		C701B88320959A74001BD7CD /* ChangeCamUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C701B88220959A74001BD7CD /* ChangeCamUITests.m */; };
 		C701B89220959FCF001BD7CD /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C701B89120959FCF001BD7CD /* CameraViewController.m */; };
 		C72E95542095B76100E27B5E /* CameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = C72E95532095B76100E27B5E /* CameraView.m */; };
+		C72E95592095DC7E00E27B5E /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C72E95582095DC7E00E27B5E /* CoreML.framework */; };
+		C72E955B2095DC8300E27B5E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C72E955A2095DC8300E27B5E /* AVFoundation.framework */; };
+		C72E955D2095DC8800E27B5E /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C72E955C2095DC8800E27B5E /* CoreMedia.framework */; };
+		C72E95612095DD2D00E27B5E /* FNS_Mosaic.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = C72E95602095DD2D00E27B5E /* FNS_Mosaic.mlmodel */; };
+		C7AE94A120C7C239005A63D3 /* FNS_The_Scream.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = C7AE94A020C7C239005A63D3 /* FNS_The_Scream.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +59,11 @@
 		C701B89120959FCF001BD7CD /* CameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		C72E95522095B76100E27B5E /* CameraView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraView.h; sourceTree = "<group>"; };
 		C72E95532095B76100E27B5E /* CameraView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraView.m; sourceTree = "<group>"; };
+		C72E95582095DC7E00E27B5E /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
+		C72E955A2095DC8300E27B5E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		C72E955C2095DC8800E27B5E /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		C72E95602095DD2D00E27B5E /* FNS_Mosaic.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FNS_Mosaic.mlmodel; sourceTree = "<group>"; };
+		C7AE94A020C7C239005A63D3 /* FNS_The_Scream.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FNS_The_Scream.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +71,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C72E955D2095DC8800E27B5E /* CoreMedia.framework in Frameworks */,
+				C72E955B2095DC8300E27B5E /* AVFoundation.framework in Frameworks */,
+				C72E95592095DC7E00E27B5E /* CoreML.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +101,7 @@
 				C701B87620959A74001BD7CD /* ChangeCamTests */,
 				C701B88120959A74001BD7CD /* ChangeCamUITests */,
 				C701B85C20959A72001BD7CD /* Products */,
+				C72E95572095DC7E00E27B5E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,6 +118,8 @@
 		C701B85D20959A72001BD7CD /* ChangeCam */ = {
 			isa = PBXGroup;
 			children = (
+				C7AE94A020C7C239005A63D3 /* FNS_The_Scream.mlmodel */,
+				C72E95602095DD2D00E27B5E /* FNS_Mosaic.mlmodel */,
 				C72E95512095B71100E27B5E /* Controllers */,
 				C72E95502095B70700E27B5E /* Views */,
 				C701B85E20959A72001BD7CD /* AppDelegate.h */,
@@ -151,6 +167,16 @@
 				C701B89020959FCF001BD7CD /* CameraViewController.h */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		C72E95572095DC7E00E27B5E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C72E955C2095DC8800E27B5E /* CoreMedia.framework */,
+				C72E955A2095DC8300E27B5E /* AVFoundation.framework */,
+				C72E95582095DC7E00E27B5E /* CoreML.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -286,7 +312,9 @@
 				C701B89220959FCF001BD7CD /* CameraViewController.m in Sources */,
 				C701B86E20959A74001BD7CD /* main.m in Sources */,
 				C701B86020959A72001BD7CD /* AppDelegate.m in Sources */,
+				C72E95612095DD2D00E27B5E /* FNS_Mosaic.mlmodel in Sources */,
 				C72E95542095B76100E27B5E /* CameraView.m in Sources */,
+				C7AE94A120C7C239005A63D3 /* FNS_The_Scream.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +486,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3YC9K4952Y;
 				INFOPLIST_FILE = ChangeCam/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -475,6 +504,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3YC9K4952Y;
 				INFOPLIST_FILE = ChangeCam/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
